@@ -8,11 +8,13 @@
 RNHDetectHist<-read.csv("RNHDetectHist.csv", header = TRUE)
 RNHScaledVeg<-read.csv("NRHScaledVeg.csv", header = TRUE)
 RNHSampleCovar_all<-read.csv("RNHSampleCovar_all.csv", header = TRUE)
-
+```
+```{r}
 #Remove un-needed columns
 Vegetation_scaled<-Vegetation_scaled[,-1] 
-
-#Create one PAO file to rule them all
+```
+```{r}
+# Create PAO file
 RNHpao<-createPao(data= RNHDetectHist, 
                    unitcov = RNHScaledVeg, 
                    survcov = RNHSampleCovar_all
@@ -20,20 +22,22 @@ RNHpao<-createPao(data= RNHDetectHist,
 
 
 modCombos(RNHDetectHist,RNHScaledVeg)
-
+```
+```{r}
 # remove rows
 RNHpao$survcov <- (RNHSampleCovar_all[,-1])
-
-#### Check the first five rows of the detection data from PAO file
+```
+Sanity checks
+```{r}
+# Check the first five rows of the detection data from PAO file
 head(RNHpao$det.data) 
-#### Check the site covariate data from PAO file
+# Check the site covariate data from PAO file
 head(RNHpao$unitcov) 
-#### Check survey covariates data from PAO file
+# Check survey covariates data from PAO file
 head(RNHpao$survcov)
 ```
 ```{r}
-
-### (optional - unhash) removing the survey column that isn't needed
+# (optional - unhash) removing the survey column that isn't needed
 #NRHpao$survcov<-(NRHpao$survcov[,-5])
 
 ```
