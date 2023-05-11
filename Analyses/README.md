@@ -209,21 +209,21 @@ KIRApao<-createPao(data= DetectHist,
 )
 
 
-#### Check the first five rows of the detection data from PAO file
+# Check the first five rows of the detection data from PAO file
 head(KIRApao$det.data) 
-#### Check the site covariate data from PAO file
+# Check the site covariate data from PAO file
 head(KIRApao$unitcov) 
-#### Check survey covariates data from PAO file
+# Check survey covariates data from PAO file
 head(KIRApao$survcov)
 
 #---------------------------------------------------------------------#
 
-### (optional - unhash) removing the survey column that isn't needed
-#KIRApao$survcov<-(KIRApao$survcov[,-5])
+# (optional - unhash) removing the survey column that isn't needed
+# KIRApao$survcov<-(KIRApao$survcov[,-5])
 
 #---------------------------------------------------------------------#
 
-### Sanity checks 
+# Sanity checks 
 det.data<-(KIRApao$det.data)
 unitcov<-(KIRApao$nunitcov)
 survcov<-(KIRApao$survcov)
@@ -233,10 +233,10 @@ survcov<-(KIRApao$survcov)
 
 ```{r}
 
-### Null model
+# Null model
 KIRA_null<-occMod(model = list(psi~1, p~1), data = KIRApao, type = "so")
 
-### Results
+# Results
 summary(KIRA_null)
 
 ```
@@ -257,50 +257,56 @@ Naive_occ
 
 ```{r}
 
-## psi(.)p(Wind+Noise+Temp+Sky)
+# psi(.)p(Wind+Noise+Temp+Sky)
 KIRA_AllSampleCovars<-occMod(model = list(psi~1, p~Wind+Noise+Temp+Sky), data = KIRApao, type = "so")
 
 summary(KIRA_AllSampleCovars)
-
+```
+```{r}
 unique(fitted(KIRA_AllSampleCovars, "psi"))
 unique(fitted(KIRA_AllSampleCovars, "p"))
 
 coef(KIRA_AllSampleCovars, "psi")
 coef(KIRA_AllSampleCovars, "p")
+```
+```{r}
 
-#---------------------------------------------------------------------#
-
-## psi(.)p(Wind+Noise+Temp)
+# psi(.)p(Wind+Noise+Temp)
 KIRA_Wind.Noise.Temp<-occMod(model = list(psi~1, p~Wind+Noise+Temp), data = KIRApao, type = "so")
 summary(KIRA_Wind.Noise.Temp)
 
-#---------------------------------------------------------------------#
+```
+```{r}
 
-## psi(.)p(Wind+Noise)
+# psi(.)p(Wind+Noise)
 KIRA_Wind.Noise<-occMod(model = list(psi~1, p~Wind+Noise), data = KIRApao, type = "so")
 summary(KIRA_Wind.Noise)
 
-#---------------------------------------------------------------------#
+```
+```{r}
 
-## psi(.)p(Wind) 
+# psi(.)p(Wind) 
 KIRA_Wind<-occMod(model = list(psi~1, p~Wind), data = KIRApao, type = "so")
 summary(KIRA_Wind)
 
-#---------------------------------------------------------------------#
+```
+```{r}
 
-## psi(.)p(Noise)
+# psi(.)p(Noise)
 KIRA_Noise<-occMod(model = list(psi~1, p~Noise), data = KIRApao, type = "so")
 summary(KIRA_Noise)
 
-#---------------------------------------------------------------------#
+```
+```{r}
 
-## psi(.)p(Sky)
+# psi(.)p(Sky)
 KIRA_Sky<-occMod(model = list(psi~1, p~Sky), data = KIRApao, type = "so")
 summary(KIRA_Sky)
 
-#---------------------------------------------------------------------#
+```
+```{r}
 
-## psi(.)p(Temp)
+# psi(.)p(Temp)
 KIRA_Temp<-occMod(model = list(psi~1, p~Temp), data = KIRApao, type = "so")
 summary(KIRA_Temp)
 ```
@@ -329,7 +335,7 @@ coef(KIRA_AllCovars, "p")
 
 ```{r}
 
-## psi(Juncus Typha Phrag Grass Schoenoplectus Trees MixedEmergents)p(.) p is constant.
+# psi(Juncus Typha Phrag Grass Schoenoplectus Trees MixedEmergents)p(.) p is constant.
 KIRA_J.T.P.G.S.Tree.M<-occMod(model = list(psi~Juncus.sp.+
                                       Typha.sp.+ 
                                   Phragmites.australis.var..australis+
@@ -343,7 +349,7 @@ summary(KIRA_J.T.P.G.S.Tree.M)
 ```
 ```{r}
 
-## psi(Juncus Typha Phrag Grass Schoenoplectus Trees)p(.) 
+# psi(Juncus Typha Phrag Grass Schoenoplectus Trees)p(.) 
 KIRA_J.T.P.G.S.Tree<-occMod(model = list(psi~Juncus.sp.+
                                              Typha.sp.+
                                  Phragmites.australis.var..australis+
@@ -355,7 +361,7 @@ KIRA_J.T.P.G.S.Tree<-occMod(model = list(psi~Juncus.sp.+
 summary(KIRA_J.T.P.G.S.Tree)
 ```
 ```{r}
-## psi(Juncus Typha Phrag Grass Schoenoplectus) p(.)
+# psi(Juncus Typha Phrag Grass Schoenoplectus) p(.)
 KIRA_J.T.P.G.S<-occMod(model = list(psi~Juncus.sp.+
                                            Typha.sp.+
                                   Phragmites.australis.var..australis+
@@ -367,7 +373,7 @@ summary(KIRA_J.T.P.G.S)
 
 ```
 ```{r}
-## psi(Juncus, Typha, Phrag, Grasses)p(.)
+# psi(Juncus, Typha, Phrag, Grasses)p(.)
 
 KIRA_J.T.P.G<-occMod(model = list(psi~Juncus.sp.+
                                       Typha.sp.+
@@ -386,7 +392,7 @@ coef(KIRA_J.T.P.G, "p")
 ```
 ```{r}
 
-## psi(Juncus, Typha, Phrag. management)p(.)
+# psi(Juncus, Typha, Phrag. management)p(.)
 
 KIRA_J.T.P.Mgmt<-occMod(model = list(psi~Juncus.sp.+
                                   Typha.sp.+
@@ -398,7 +404,7 @@ summary(KIRA_J.T.P.Mgmt)
 ```
 ```{r}
 
-## psi(Juncus, Typha, Phrag)p(.)
+# psi(Juncus, Typha, Phrag)p(.)
 
 KIRA_J.T.P<-occMod(model = list(psi~Juncus.sp.+
                                     Typha.sp.+
@@ -408,7 +414,7 @@ KIRA_J.T.P<-occMod(model = list(psi~Juncus.sp.+
 summary(KIRA_J.T.P)
 ```
 ```{r}
-## psi(Juncus Typha)p(.)
+# psi(Juncus Typha)p(.)
 
 KIRA_J.T<-occMod(model = list(psi~Juncus.sp.+
                                     Typha.sp.,
@@ -417,7 +423,7 @@ KIRA_J.T<-occMod(model = list(psi~Juncus.sp.+
 summary(KIRA_J.T)
 ```
 ```{r}
-## psi(Juncus, Phrag)p(.)
+# psi(Juncus, Phrag)p(.)
 
 KIRA_J.P<-occMod(model = list(psi~Juncus.sp.+
                                   Phragmites.australis.var..australis,
@@ -427,7 +433,7 @@ summary(KIRA_J.P)
 ```
 ```{r}
 
-## psi(Management)p(.)
+# psi(Management)p(.)
 
 KIRA_mgmt<-occMod(model = list(psi~Management0_1,
                               p~1), 
@@ -446,7 +452,7 @@ summary(KIRA_J.mgmt)
 ```
 ```{r}
 
-## psi(Juncus, Typha, Management)p(.)
+# psi(Juncus, Typha, Management)p(.)
 
 KIRA_J.T.mgmt<-occMod(model = list(psi~ Juncus.sp.+
                                    Typha.sp.+
@@ -457,7 +463,7 @@ summary(KIRA_J.T.mgmt)
 
 ```
 ```{r}
-## psi(Juncus, Phrag, Management)p(.)
+# psi(Juncus, Phrag, Management)p(.)
 
 KIRA_J.P.mgmt<-occMod(model = list(psi~ Juncus.sp.+
                                   Phragmites.australis.var..australis+
@@ -469,7 +475,7 @@ summary(KIRA_J.P.mgmt)
 ```
 ```{r}
 
-## psi(Phrag, Management)p(.)
+# psi(Phrag, Management)p(.)
 
 KIRA_P.mgmt<-occMod(model = list(psi~ Phragmites.australis.var..australis+
                                      Management0_1,
@@ -478,7 +484,7 @@ KIRA_P.mgmt<-occMod(model = list(psi~ Phragmites.australis.var..australis+
 summary(KIRA_P.mgmt)
 ```
 
-# 12. Compare AIC ------------------------
+### 12. Compare AIC 
 
 1. Compile models already run  
 
@@ -510,10 +516,10 @@ All_KIRA_Models<-list(KIRA_AllCovars,
 
 ```
 ```{r}
-## Create a summary table of AIC values & compare. These are ranked by minimum AIC value
+# Create a summary table of AIC values & compare. These are ranked by minimum AIC value
 KIRA_AIC_Table<-createAicTable(All_KIRA_Models) 
 AIC<-summary(KIRA_AIC_Table) 
-#write.csv(AIC, "AIC.CSV")
+write.csv(AIC, "AIC.CSV")
 AIC
 
 ```
@@ -527,7 +533,7 @@ top3.model<-KIRA_AIC_Table$models[[3]]
 ```
 ```{r}
 
-## Check coefficients (beta values) of psi and p from the top model
+# Check coefficients (beta values) of psi and p from the top model
 coef(top.model, "psi")
 coef(top.model, "p")
 
@@ -614,7 +620,7 @@ CT
 ```{r}
 # This is a different package for the same chi square test to double check my results from above.
 
-#install.packages("rhep")
+install.packages("rhep")
 library(rhep)
 
 #devtools::install_github("reyzaguirre/rhep") #alternative chi square test
