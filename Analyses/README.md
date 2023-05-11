@@ -1,7 +1,7 @@
 # 2022 KIRA Occupancy Modeling
 
-
-## 1. Load libraries
+---
+### 1. Load libraries
 
 
 ```{r}
@@ -10,18 +10,15 @@ ls("package:RPresence")
 library(ggplot2) #load ggplot package
 
 ```
+---
+### 2. Set working directory
 
-## 2. Set working directory
-
-setwd("C:/Users/Carol's PC/Documents/KIRAoccModel/Data")
-getwd()
 ```{r}
-setwd("C:/Users/Carol's PC/Documents/KIRAoccModel/Data")
-
+setwd("C:/Users/CarolPC/Documents/KIRAoccModel/Data")
 ```
 
-
-## 3. Detection Histories 
+---
+### 3. Detection Histories 
 
 ```{r}
 
@@ -29,10 +26,10 @@ setwd("C:/Users/Carol's PC/Documents/KIRAoccModel/Data")
 
 DetectHist<-read.csv("Detections.csv", header = TRUE)
 
-head(DetectHist) # make sure it looks okay
+head(DetectHist) # sanity check
 ```
-
-## 4. Sample Covariates 
+---
+### 4. Sample Covariates 
 
 1. Add csv files
 ```{r}
@@ -43,7 +40,7 @@ Noise<-read.csv("Noise.csv", header = TRUE)
 Temp<-read.csv("Temp.csv", header = TRUE)
 
 
-### Checking how it looks
+### Sanity checks
 head(Wind)
 head(Noise)
 head(Temp)
@@ -62,7 +59,7 @@ Wind_long <- reshape(Wind,
                      direction="long",
                      idvar="SiteID")
 
-head(Wind_long)
+head(Wind_long) # sanity check
 
 #### 2
 Noise_long <- reshape(Noise, 
@@ -72,7 +69,7 @@ Noise_long <- reshape(Noise,
                       direction="long",
                       idvar="SiteID")
 
-head(Noise_long)
+head(Noise_long) # sanity check
 
 #### 3
 Temp_long <- reshape(Temp, 
@@ -82,7 +79,7 @@ Temp_long <- reshape(Temp,
                      direction="long",
                      idvar="SiteID")
 
-head(Temp_long)
+head(Temp_long) # sanity check
 
 #### 4
 Sky_long <- reshape(Sky, 
@@ -92,7 +89,7 @@ Sky_long <- reshape(Sky,
                     direction="long",
                     idvar="SiteID")
 
-head(Sky_long)
+head(Sky_long) # sanity check
 ```
 
 3. Combine the sample covariate data 
@@ -121,20 +118,20 @@ SampleCovar_all$Temp<-scale(SampleCovar_all$Temp)
 SampleCovar_all$Sky<-scale(SampleCovar_all$Sky)
 
 head(SampleCovar_all)
----
+
 
 ### Save combined sample covariate data as a csv file 
 #write.csv(SampleCovar_all, "SampleCovar_all.csv")
 ```
-
-## 5. Save time later by uploading long format sample covariates 
+---
+### 5. Save time later by uploading long format sample covariates 
 
 ```{r}
 SampleCovar_all<-read.csv("SampleCovar_all.csv", header = TRUE)
 ```
+---
 
-
-## 6. Site Covariates 
+### 6. Site Covariates 
 
 ```{r}
 
@@ -162,8 +159,8 @@ head (Vegetation)
 
 
 ```
-
-## 7. Visualizing the data to see what distributions look like 
+---
+### 7. Visualizing the data to see what distributions look like 
 
 ```{r}
 
@@ -179,13 +176,13 @@ hist(Vegetation$Phragmites.australis.var..australis)
 hist(Vegetation$Grass.Sp.)
 hist(Vegetation$Schoenoplectus.americanus)
 hist(Vegetation$Trees.and.shrubs)
-hist(Vegetation$Mixed.Emergents) #none of the covariates are like a bell curve. Hopefully that is okay.
+hist(Vegetation$Mixed.Emergents) 
 
 ```
 
+---
 
-
-## 8. Create PAO file 
+### 8. Create PAO file 
 
 1. Remove unnecessary columns
 
@@ -201,7 +198,7 @@ head(DetectHist)
 
 ```
 
-2.Create PAO data object using detection history and covariates
+2. Create PAO data object using detection history and covariates
 
 ```{r}
 # PAO file
@@ -226,13 +223,13 @@ head(KIRApao$survcov)
 
 #---------------------------------------------------------------------#
 
-### Looking at the individual parts of the pao file to check correctness 
+### Sanity checks 
 det.data<-(KIRApao$det.data)
 unitcov<-(KIRApao$nunitcov)
 survcov<-(KIRApao$survcov)
 ```
-
-## 9. Fit psi(.)p(.) aka the null model 
+---
+### 9. Fit psi(.)p(.) - Null model 
 
 ```{r}
 
@@ -242,18 +239,9 @@ KIRA_null<-occMod(model = list(psi~1, p~1), data = KIRApao, type = "so")
 ### Results
 summary(KIRA_null)
 
-#---------------------------------------------------------------------#
-
-#### Probability of sites being occupied
-unique(fitted(KIRA_null, "psi")) # why are the values repeating even though I used unique?
-
-#---------------------------------------------------------------------#
-
-#### Probability of detection
-unique(fitted(KIRA_null, "p"))
 ```
-
-## 10. Estimate Naive Occupancy 
+---
+### 10. Estimate Naive Occupancy 
 
 ```{r}
 
@@ -262,8 +250,8 @@ Naive_occ<-sum(ifelse(rowSums(KIRApao$det.data[2:ncol(KIRApao$det.data)], na.rm=
 
 Naive_occ
 ```
-
-## 11. Model detection probability as a function of covariates 
+---
+### 11. Model detection probability as a function of covariates 
 
 1. psi is constant
 
@@ -352,8 +340,8 @@ KIRA_J.T.P.G.S.Tree.M<-occMod(model = list(psi~Juncus.sp.+
                                     p~1), 
                        data = KIRApao, type = "so")
 summary(KIRA_J.T.P.G.S.Tree.M)
-
-#---------------------------------------------------------------------#
+```
+```{r}
 
 ## psi(Juncus Typha Phrag Grass Schoenoplectus Trees)p(.) 
 KIRA_J.T.P.G.S.Tree<-occMod(model = list(psi~Juncus.sp.+
@@ -365,9 +353,8 @@ KIRA_J.T.P.G.S.Tree<-occMod(model = list(psi~Juncus.sp.+
                                            p~1), 
                               data = KIRApao, type = "so")
 summary(KIRA_J.T.P.G.S.Tree)
-
-#---------------------------------------------------------------------#
-
+```
+```{r}
 ## psi(Juncus Typha Phrag Grass Schoenoplectus) p(.)
 KIRA_J.T.P.G.S<-occMod(model = list(psi~Juncus.sp.+
                                            Typha.sp.+
@@ -378,8 +365,8 @@ KIRA_J.T.P.G.S<-occMod(model = list(psi~Juncus.sp.+
                             data = KIRApao, type = "so")
 summary(KIRA_J.T.P.G.S)
 
-#---------------------------------------------------------------------#
-
+```
+```{r}
 ## psi(Juncus, Typha, Phrag, Grasses)p(.)
 
 KIRA_J.T.P.G<-occMod(model = list(psi~Juncus.sp.+
@@ -396,8 +383,8 @@ fitted(KIRA_J.T.P.G, "p")
 
 coef(KIRA_J.T.P.G, "psi")
 coef(KIRA_J.T.P.G, "p")
-
-#---------------------------------------------------------------------#
+```
+```{r}
 
 ## psi(Juncus, Typha, Phrag. management)p(.)
 
@@ -408,8 +395,8 @@ KIRA_J.T.P.Mgmt<-occMod(model = list(psi~Juncus.sp.+
                                 p~1), 
                    data = KIRApao, type = "so")
 summary(KIRA_J.T.P.Mgmt)
-
-#---------------------------------------------------------------------#
+```
+```{r}
 
 ## psi(Juncus, Typha, Phrag)p(.)
 
@@ -419,9 +406,8 @@ KIRA_J.T.P<-occMod(model = list(psi~Juncus.sp.+
                                   p~1), 
                      data = KIRApao, type = "so")
 summary(KIRA_J.T.P)
-
-#---------------------------------------------------------------------#
-
+```
+```{r}
 ## psi(Juncus Typha)p(.)
 
 KIRA_J.T<-occMod(model = list(psi~Juncus.sp.+
@@ -429,9 +415,8 @@ KIRA_J.T<-occMod(model = list(psi~Juncus.sp.+
                                   p~1), 
                      data = KIRApao, type = "so")
 summary(KIRA_J.T)
-
-#---------------------------------------------------------------------#
-
+```
+```{r}
 ## psi(Juncus, Phrag)p(.)
 
 KIRA_J.P<-occMod(model = list(psi~Juncus.sp.+
@@ -439,8 +424,8 @@ KIRA_J.P<-occMod(model = list(psi~Juncus.sp.+
                                   p~1), 
                      data = KIRApao, type = "so")
 summary(KIRA_J.P)
-
-#---------------------------------------------------------------------#
+```
+```{r}
 
 ## psi(Management)p(.)
 
@@ -449,8 +434,8 @@ KIRA_mgmt<-occMod(model = list(psi~Management0_1,
                  data = KIRApao, type = "so")
 summary(KIRA_mgmt)
 
-#---------------------------------------------------------------------#
-
+```
+```{r}
 ## psi(Juncus, Management)p(.)
 
 KIRA_J.mgmt<-occMod(model = list(psi~ Juncus.sp.+
@@ -458,8 +443,8 @@ KIRA_J.mgmt<-occMod(model = list(psi~ Juncus.sp.+
                                p~1), 
                   data = KIRApao, type = "so")
 summary(KIRA_J.mgmt)
-
-#---------------------------------------------------------------------#
+```
+```{r}
 
 ## psi(Juncus, Typha, Management)p(.)
 
@@ -470,8 +455,8 @@ KIRA_J.T.mgmt<-occMod(model = list(psi~ Juncus.sp.+
                     data = KIRApao, type = "so")
 summary(KIRA_J.T.mgmt)
 
-#---------------------------------------------------------------------#
-
+```
+```{r}
 ## psi(Juncus, Phrag, Management)p(.)
 
 KIRA_J.P.mgmt<-occMod(model = list(psi~ Juncus.sp.+
@@ -481,7 +466,8 @@ KIRA_J.P.mgmt<-occMod(model = list(psi~ Juncus.sp.+
                       data = KIRApao, type = "so")
 summary(KIRA_J.P.mgmt)
 
-#---------------------------------------------------------------------#
+```
+```{r}
 
 ## psi(Phrag, Management)p(.)
 
@@ -522,47 +508,49 @@ All_KIRA_Models<-list(KIRA_AllCovars,
                       KIRA_Wind.Noise.Temp
                       )
 
-#---------------------------------------------------------------------#
-
+```
+```{r}
 ## Create a summary table of AIC values & compare. These are ranked by minimum AIC value
 KIRA_AIC_Table<-createAicTable(All_KIRA_Models) 
 AIC<-summary(KIRA_AIC_Table) 
 #write.csv(AIC, "AIC.CSV")
 AIC
 
-#---------------------------------------------------------------------#
+```
+```{r}
 
 # Extract results from the top three models
 top.model<-KIRA_AIC_Table$models[[1]]
 top2.model<-KIRA_AIC_Table$models[[2]]
 top3.model<-KIRA_AIC_Table$models[[3]]
 
-#---------------------------------------------------------------------#
+```
+```{r}
 
 ## Check coefficients (beta values) of psi and p from the top model
 coef(top.model, "psi")
 coef(top.model, "p")
 
 ```
-
-# 13. Negative % bias ------------------------
+---
+### 13. Negative % bias ------------------------
 13.1 Estimate negative % bias between naive and null-model occupancy estimates
 ```{r}
 Bias<-(unique(fitted(KIRA_null, "psi")$est)-Naive_occ)/unique(fitted(KIRA_null,"psi")$est)*100
 Bias
 ``` 
+---
+### 14.  Create a grid to map occupancy
 
-# 14.  Create a grid to map occupancy ----------------
-
-
-# 15. Highest likelihood model GoF ----------------
+---
+### 15. Highest likelihood model GoF
 15.1 Run a model estimating goodness of fit with the model that has the highest likelihood
 
-
-# 16. Estimate occupancy
+---
+### 16. Estimate occupancy
 16.1 Create data with all possible values of habitat covariate (This is one possible method to estimate occupancy)
-
-# 18. Chi-Square Goodness of Fit Test for Poisson Distribution ------------------------
+---
+### 18. Chi-Square Goodness of Fit Test for Poisson Distribution
 
 1. Using df=1 and detection history frequencies (0/1)
 
@@ -739,8 +727,8 @@ print(gof_ZIP)
 
 ```
 
-
-# 19. Royle-Nicols Model ------------------------
+---
+### 19. Royle-Nicols Model 
 
 1. Create PAO file
 
@@ -808,8 +796,6 @@ RNH_mgmnt<-occMod(model = list(lambda~Juncus.sp., c~1), data = KIRApao, type = "
 
 #---------------------------------------------------------------------#
 
-# help("RPresence")
-
 
 #RNH_mgmnt<- occMod_RPC(
 #  lambda = call(),
@@ -821,7 +807,6 @@ RNH_mgmnt<-occMod(model = list(lambda~Juncus.sp., c~1), data = KIRApao, type = "
 #  data = KIRApao
 # )
 #summary(RNH_mgmnt)
-
 
 ```
 
@@ -844,25 +829,4 @@ RNH_mgmnt<-occMod(model = list(lambda~Juncus.sp., c~1), data = KIRApao, type = "
 
 
 
-3. Using a different package (wiqid). Output is checked against output from PRESENCE v.6.9
 
-```{r}
-# help("wiqid-package")
-
-# SiteCovar <- read.csv("data_wiqid.csv", header = TRUE)
-
-#---------------------------------------------------------------------#
-
-#occSSrn(DetectHist,
-#        model = NULL,
-#        data = SiteCovar, 
-#        ci = 0.95, 
-#        link=c("logit","probit"), 
-#        verify = TRUE,)
-#---------------------------------------------------------------------#
-
-# Null nodel
-#occSSrn0(58, 3, ci=0.95, link = c("logit","probit") )
-
-#occSSrnSite(58, 3, model = NULL, data = NULL, link = c("logit","probit") )
-```
