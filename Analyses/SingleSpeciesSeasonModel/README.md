@@ -1,4 +1,4 @@
-# 2022 KIRA Occupancy Modeling
+# Simple, single-season, single-species model
 
 ---
 ### 1. Load libraries
