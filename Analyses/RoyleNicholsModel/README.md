@@ -43,7 +43,7 @@ head(RNHpao$survcov)
 ```
 ```{r}
 
-### Looking at the individual parts of the pao file to check correctness 
+# Looking at the individual parts of the pao file to check correctness 
 RNHdet.data<-(RNHpao$det.data)
 RNHunitcov<-(RNHpao$nunitcov)
 RNHsurvcov<-(RNHpao$survcov)
@@ -86,7 +86,7 @@ RNH_mgmnt<-occMod(model = list(lambda~Juncus.sp., c~1), data = KIRApao, type = "
 ```
 ---
 
-### 5. Lambda (Phgrag),r(.)
+### 5. Lambda (Phrag),r(.)
 ```{r}
 RNH_mgmnt<-occMod(model = list(lambda~Phragmites, c~1), data = KIRApao, type = "RNH")
 
