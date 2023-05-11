@@ -21,8 +21,7 @@ setwd("C:/Users/CarolPC/Documents/KIRAoccModel/Data")
 ### 3. Detection Histories 
 
 ```{r}
-
-## Read in detection history (0/1 data)
+# Read in detection history (0/1 data)
 
 DetectHist<-read.csv("Detections.csv", header = TRUE)
 
@@ -33,14 +32,14 @@ head(DetectHist) # sanity check
 
 1. Add csv files
 ```{r}
-### Read in sample covariates – these vary temporally
+# Read in sample covariates – these vary temporally
 Wind<-read.csv("Wind.csv", header = TRUE)
 Sky<-read.csv("Sky.csv", header = TRUE)
 Noise<-read.csv("Noise.csv", header = TRUE)
 Temp<-read.csv("Temp.csv", header = TRUE)
 
 
-### Sanity checks
+# Sanity checks
 head(Wind)
 head(Noise)
 head(Temp)
@@ -51,7 +50,7 @@ head(Sky)
 
 ```{r}
 
-#### 1
+# 1
 Wind_long <- reshape(Wind, 
                      varying= list(colnames(Wind)[seq(2,4, by= 1)]),
                      v.names = c("Wind"),
@@ -61,7 +60,7 @@ Wind_long <- reshape(Wind,
 
 head(Wind_long) # sanity check
 
-#### 2
+# 2
 Noise_long <- reshape(Noise, 
                       varying= list(colnames(Noise)[seq(2,4, by= 1)]),
                       v.names = c("Noise"),
@@ -71,7 +70,7 @@ Noise_long <- reshape(Noise,
 
 head(Noise_long) # sanity check
 
-#### 3
+# 3
 Temp_long <- reshape(Temp, 
                      varying= list(colnames(Temp)[seq(2,4, by= 1)]),
                      v.names = c("Temp"),
@@ -81,7 +80,7 @@ Temp_long <- reshape(Temp,
 
 head(Temp_long) # sanity check
 
-#### 4
+# 4
 Sky_long <- reshape(Sky, 
                     varying= list(colnames(Sky)[seq(2,4, by= 1)]),
                     v.names = c("Sky"),
@@ -100,7 +99,7 @@ SampleCovar_all<-cbind(Wind_long, Noise_long$Noise, Temp_long$Temp,Sky_long$Sky)
 
 head(SampleCovar_all)
 
-### Change the column names (for clarity)
+# Change the column names (for clarity)
 colnames(SampleCovar_all)[4]<-"Noise"
 colnames(SampleCovar_all)[5]<-"Temp"
 colnames(SampleCovar_all)[6]<-"Sky"
@@ -120,7 +119,7 @@ SampleCovar_all$Sky<-scale(SampleCovar_all$Sky)
 head(SampleCovar_all)
 
 
-### Save combined sample covariate data as a csv file 
+# Save combined sample covariate data as a csv file 
 #write.csv(SampleCovar_all, "SampleCovar_all.csv")
 ```
 ---
@@ -135,15 +134,16 @@ SampleCovar_all<-read.csv("SampleCovar_all.csv", header = TRUE)
 
 ```{r}
 
-### Read in CSV file
+# Read in CSV file
 Vegetation<-read.csv("Vegetation.csv", header = TRUE)
 Vegetation_scaled<-read.csv("VegetationScaled.csv", header = TRUE)
 
 
 head (Vegetation) # These are already in long format since this data was collected once (not on 3 separate occasions)
+```
+```{r}
 
----
-### Scale site covariate data so it has unit variance and mean of zero (z score)
+# Scale site covariate data so it has unit variance and mean of zero (z score)
 Vegetation$Juncus.sp.<-scale(Vegetation$Juncus.sp.)
 Vegetation$Typha.sp.<-scale(Vegetation$Typha.sp.)
 Vegetation$Phragmites.australis.var..australis<-
@@ -155,7 +155,7 @@ Vegetation$Mixed.Emergents<-scale(Vegetation$Mixed.Emergents)
 Vegetation$Management0_1<-scale(Vegetation$Management0_1)
 
 
-head (Vegetation) 
+head (Vegetation) # Sanity check
 
 
 ```
