@@ -539,23 +539,14 @@ coef(top.model, "p")
 
 ```
 ---
-### 13. Negative % bias ------------------------
+### 13. Negative % bias 
 13.1 Estimate negative % bias between naive and null-model occupancy estimates
 ```{r}
 Bias<-(unique(fitted(KIRA_null, "psi")$est)-Naive_occ)/unique(fitted(KIRA_null,"psi")$est)*100
 Bias
 ``` 
 ---
-### 14.  Create a grid to map occupancy
 
----
-### 15. Highest likelihood model GoF
-15.1 Run a model estimating goodness of fit with the model that has the highest likelihood
-
----
-### 16. Estimate occupancy
-16.1 Create data with all possible values of habitat covariate (This is one possible method to estimate occupancy)
----
 ### 18. Chi-Square Goodness of Fit Test for Poisson Distribution
 
 1. Using df=1 and detection history frequencies (0/1)
@@ -612,8 +603,6 @@ legend("topright", c("Observed","Expected Poisson"), pch=15,
 
 CT <- chisq.test(rbind(Frequency,E_poi)) 
 CT
-
-
 ```
 
 
@@ -643,8 +632,8 @@ chi # same answer
 ```{r}
 # Data 
 CountFreq<-read.csv("Frequency.csv", header = TRUE) # count data as frequencies 
-
-#---------------------------------------------------------------------#
+```
+```{r}
 
 # Compute Poisson distribution
   
@@ -653,7 +642,8 @@ poisson <- function(x, lambda) {
   return(probfn)
 }
 
-#---------------------------------------------------------------------#
+```
+```{r}
 
 # Chi sq prep
   
@@ -671,7 +661,8 @@ cbind(MEAN,VAR,DISP,THETA,R)
 x <- Detections
 (E_poi = round(N * dpois(x, lambda=MEAN),5))
 
-#---------------------------------------------------------------------#
+```
+```{r}
 
 # View distributions
 
@@ -684,155 +675,11 @@ legend("topright", c("Observed","Expected Poisson"), pch=15,
       col=c("aquamarine3","coral"), 
       bty="Detections") # add a legend
 
-#---------------------------------------------------------------------#
-
+```
+```{r}
 
 # View the Chi sq test outputs
 CT <- chisq.test(rbind(Frequency,E_poi))
 CT
 
 ```
-
-
-3. Zero-inflated Poisson (ZIP) model
-
-```{r}
-
-# Load libraries
-library(fitdistrplus)    # fits distributions using maximum likelihood
-library(gamlss)          # defines pdf, cdf of ZIP
-
-#---------------------------------------------------------------------#
-
-# Raw counts to vector
-  
-i.vec <- c(0,0,1,1,0,2,0,2,3,1,0,2,0,0,0,3,5,5,0,0,0,0,2,4,2,3,1,0,2,2,1,1,3,2,1,5,4,5,0,1,2,3,0,0,4,0,1,2,1,2,0,0,0,0,1,0,1,1,0,0,0,3,2,0,4,1,1,0,1,2,0,0,0,0,0,0,0,0,1,0,1,5,0,0,1,1,3,1,1,0,2,1,1,3,6,0,0,2,1,1,1,6,0,2,2,0,5,0,0,0,0,0,0,0,1,3,0,0,0,0,1,2,3,3,3,1,0,4,2,1,0,0,0,0,0,0,0,0,0,2,2,2,4,2,2,3,2,2,2,3,0,3,3,4,0,0,0,2,1,3,2,2,0,4,2,2,0,0,0,0,0,0,0,1)
-
-mean(i.vec)
-# 1.3 mean
-
-sd(i.vec)
-# 1.5 standard dev
-
-#---------------------------------------------------------------------#
-
-# Fit the distribution (mu = mean of poisson, sigma = P(X = 0)
-help("fitdistrplus")
-class("fit_zip")
-
-fit_zip <- fitdist(i.vec, 'ZIP', start = list(mu = 2, sigma = 0.5))
-
-
-#---------------------------------------------------------------------#
-
-# Visualize distribution & find GoF   
-
-plot(fit_zip)
-gof_ZIP<-gofstat(fit_zip, discrete = TRUE)
-print(gof_ZIP)
-
-```
-
----
-### 19. Royle-Nicols Model 
-
-1. Create PAO file
-
-```{r}
-# Files
-RNHDetectHist<-read.csv("RNHDetectHist.csv", header = TRUE)
-RNHScaledVeg<-read.csv("NRHScaledVeg.csv", header = TRUE)
-RNHSampleCovar_all<-read.csv("RNHSampleCovar_all.csv", header = TRUE)
-
-#Remove un-needed columns
-Vegetation_scaled<-Vegetation_scaled[,-1] 
-
-#Create one PAO file to rule them all
-RNHpao<-createPao(data= RNHDetectHist, 
-                   unitcov = RNHScaledVeg, 
-                   survcov = RNHSampleCovar_all
-)
-
-
-modCombos(RNHDetectHist,RNHScaledVeg)
-
-# remove rows
-RNHpao$survcov <- (RNHSampleCovar_all[,-1])
-
-#### Check the first five rows of the detection data from PAO file
-head(RNHpao$det.data) 
-#### Check the site covariate data from PAO file
-head(RNHpao$unitcov) 
-#### Check survey covariates data from PAO file
-head(RNHpao$survcov)
-
-#---------------------------------------------------------------------#
-
-### (optional - unhash) removing the survey column that isn't needed
-#NRHpao$survcov<-(NRHpao$survcov[,-5])
-
-#---------------------------------------------------------------------#
-
-### Looking at the individual parts of the pao file to check correctness 
-RNHdet.data<-(RNHpao$det.data)
-RNHunitcov<-(RNHpao$nunitcov)
-RNHsurvcov<-(RNHpao$survcov)
-
-```
-
-2. Null model
-
-```{r}
-RNH_null<-occMod(model = list(lambda~1, c~1), data = KIRApao, type = "AHO", link = logit)
-
-
-summary(RNH_null)
-```
-
-2. Lambda (Management), r()
-```{r}
-RNH_mgmnt<-occMod(model = list(lambda~Juncus.sp., c~1), data = KIRApao, type = "RNH")
-
-
-#summary(RNH_mgmnt)
-
-
-#nrow(RNHpao) #NULL
-#length(RNHpao) #16
-
-#---------------------------------------------------------------------#
-
-
-#RNH_mgmnt<- occMod_RPC(
-#  lambda = call(),
-#  lambda.cov = KIRApao$unitcov,
-#  r = call(),
-#  r.cov = cbind(KIRApao$unitcov, KIRApao$survcov),
-#  nic = TRUE,
-#  model = 100,
-#  data = KIRApao
-# )
-#summary(RNH_mgmnt)
-
-```
-
-
-
-
-```{r}
-
-# count <- read.csv("Detection.counts.csv", header = TRUE)
-#---------------------------------------------------------------------#
-
-#pao=createPao(count)
-#---------------------------------------------------------------------#
-
-#m2=occMod(list(lambda~Management0_1, r~1), data=KIRApao, type='RNH', outfile='modname')
-#print(print_one_site_estimates(m2))
-#print(print_one_site_estimates(m2,derived=T))
-```
-
-
-
-
-
