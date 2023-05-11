@@ -1,5 +1,5 @@
 
-## King Rail Occupancy and Abundance in coastal North Carolina and Virginia
+## King Rail Occupancy and Abundance in Coastal North Carolina and Virginia
 - - - -
 
 ### Aim
@@ -7,7 +7,7 @@ I am interested in king rail occupancy and abundance in regions surrounding a [s
 
 ***
 ### Repo Contents
-- **Analyses**: A markdown file containing analysis steps in R.
+- **Analyses**: subdirectories containing markdown files with analysis steps in R.
 - **bin**: Scripts written by Carol Gause.
   - ** .R**: A script.
 - **results**: A collection of subdirectories containing outputs.
