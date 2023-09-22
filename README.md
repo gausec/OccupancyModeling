@@ -6,7 +6,7 @@
 I am interested in king rail occupancy and abundance in regions surrounding a [source population](https://ecos.fws.gov/ServCat/DownloadFile/106667) at Mackay Island National Wildlife Refuge.
 
 ***
-### Repo Contents
+### Repo Contents 
 - **Analyses**: subdirectories containing markdown files with analysis steps in R.
 
 ***
