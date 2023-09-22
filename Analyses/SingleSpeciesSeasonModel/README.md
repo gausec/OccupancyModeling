@@ -146,8 +146,8 @@ head (Vegetation) # These are already in long format since this data was collect
 # Scale site covariate data so it has unit variance and mean of zero (z score)
 Vegetation$Juncus.sp.<-scale(Vegetation$Juncus.sp.)
 Vegetation$Typha.sp.<-scale(Vegetation$Typha.sp.)
-Vegetation$Phragmites.australis.var..australis<-
-  scale(Vegetation$Phragmites.australis.var..australis)
+Vegetation$Phragmites.australis <-
+  scale(Vegetation$Phragmites.australis )
 Vegetation$Grass.Sp.<-scale(Vegetation$Grass.Sp.)
 Vegetation$Schoenoplectus.americanus<-scale(Vegetation$Schoenoplectus.americanus)
 Vegetation$Trees.and.shrubs<-scale(Vegetation$Trees.and.shrubs)
@@ -172,7 +172,7 @@ hist(SampleCovar_all$Sky)
 hist(Vegetation$Juncus.sp.)
 hist(Vegetation$Management0_1)
 hist(Vegetation$Typha.sp.)
-hist(Vegetation$Phragmites.australis.var..australis)
+hist(Vegetation$Phragmites.australis )
 hist(Vegetation$Grass.Sp.)
 hist(Vegetation$Schoenoplectus.americanus)
 hist(Vegetation$Trees.and.shrubs)
@@ -317,7 +317,7 @@ summary(KIRA_Temp)
 
 KIRA_AllCovars<-occMod(model = list(psi~Juncus.sp.+
                                             Typha.sp.+
-                                  Phragmites.australis.var..australis +
+                                  Phragmites.australis+
                                             Grass.Sp.+
                                             Schoenoplectus.americanus+
                                             Trees.and.shrubs+
@@ -338,7 +338,7 @@ coef(KIRA_AllCovars, "p")
 # psi(Juncus Typha Phrag Grass Schoenoplectus Trees MixedEmergents)p(.) p is constant.
 KIRA_J.T.P.G.S.Tree.M<-occMod(model = list(psi~Juncus.sp.+
                                       Typha.sp.+ 
-                                  Phragmites.australis.var..australis+
+                                  Phragmites.australis+
                                       Grass.Sp.+
                                       Schoenoplectus.americanus+
                                       Trees.and.shrubs+
@@ -352,7 +352,7 @@ summary(KIRA_J.T.P.G.S.Tree.M)
 # psi(Juncus Typha Phrag Grass Schoenoplectus Trees)p(.) 
 KIRA_J.T.P.G.S.Tree<-occMod(model = list(psi~Juncus.sp.+
                                              Typha.sp.+
-                                 Phragmites.australis.var..australis+
+                                 Phragmites.australis+
                                              Grass.Sp.+
                                              Schoenoplectus.americanus+
                                              Trees.and.shrubs,
@@ -364,7 +364,7 @@ summary(KIRA_J.T.P.G.S.Tree)
 # psi(Juncus Typha Phrag Grass Schoenoplectus) p(.)
 KIRA_J.T.P.G.S<-occMod(model = list(psi~Juncus.sp.+
                                            Typha.sp.+
-                                  Phragmites.australis.var..australis+
+                                  Phragmites.australis+
                                            Grass.Sp.+
                                            Schoenoplectus.americanus,
                                          p~1), 
@@ -377,7 +377,7 @@ summary(KIRA_J.T.P.G.S)
 
 KIRA_J.T.P.G<-occMod(model = list(psi~Juncus.sp.+
                                       Typha.sp.+
-                                  Phragmites.australis.var..australis+
+                                  Phragmites.australis+
                                       Grass.Sp.,
                                     p~1), 
                        data = KIRApao, type = "so")
@@ -396,7 +396,7 @@ coef(KIRA_J.T.P.G, "p")
 
 KIRA_J.T.P.Mgmt<-occMod(model = list(psi~Juncus.sp.+
                                   Typha.sp.+
-                                  Phragmites.australis.var..australis+
+                                  Phragmites.australis+
                                   Management0_1,
                                 p~1), 
                    data = KIRApao, type = "so")
@@ -408,7 +408,7 @@ summary(KIRA_J.T.P.Mgmt)
 
 KIRA_J.T.P<-occMod(model = list(psi~Juncus.sp.+
                                     Typha.sp.+
-                                    Phragmites.australis.var..australis,
+                                    Phragmites.australis ,
                                   p~1), 
                      data = KIRApao, type = "so")
 summary(KIRA_J.T.P)
@@ -426,7 +426,7 @@ summary(KIRA_J.T)
 # psi(Juncus, Phrag)p(.)
 
 KIRA_J.P<-occMod(model = list(psi~Juncus.sp.+
-                                  Phragmites.australis.var..australis,
+                                  Phragmites.australis ,
                                   p~1), 
                      data = KIRApao, type = "so")
 summary(KIRA_J.P)
@@ -466,7 +466,7 @@ summary(KIRA_J.T.mgmt)
 # psi(Juncus, Phrag, Management)p(.)
 
 KIRA_J.P.mgmt<-occMod(model = list(psi~ Juncus.sp.+
-                                  Phragmites.australis.var..australis+
+                                  Phragmites.australis+
                                      Management0_1,
                                    p~1), 
                       data = KIRApao, type = "so")
@@ -477,7 +477,7 @@ summary(KIRA_J.P.mgmt)
 
 # psi(Phrag, Management)p(.)
 
-KIRA_P.mgmt<-occMod(model = list(psi~ Phragmites.australis.var..australis+
+KIRA_P.mgmt<-occMod(model = list(psi~ Phragmites.australis+
                                      Management0_1,
                                    p~1), 
                       data = KIRApao, type = "so")
