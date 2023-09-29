@@ -14,8 +14,6 @@ DetectHist<-read.csv("Detections.csv", header = TRUE)
 # sanity check
 head(DetectHist) 
 ```
-&nbsp;
-
 ```{r}
 # Read in site covariates
 mngmnt<-read.csv("mngmnt.csv", header = TRUE)
@@ -46,7 +44,6 @@ occ_model <- occu(~ 1
 summary(occ_model)
 
 ```
-&nbsp;
 ```{r}
 # Global model
 occ_model.2 <- occu(~ 1
@@ -63,7 +60,6 @@ occ_model.2 <- occu(~ 1
 summary(occ_model)
 
 ```
-&nbsp;
 ```{r}
 # Top model from PRESENCE output
 occ_model1 <- occu(~ 1
@@ -80,7 +76,7 @@ print(occ_gof1)
 ```
 
 &nbsp;
-#### 7. Estimate occupancy and deteection probability
+#### 7. Estimate occupancy and detection probability
 
 ```{r}
 # To get real estimate of occupancy (with 95% CI)
