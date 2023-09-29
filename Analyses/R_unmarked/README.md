@@ -50,7 +50,7 @@ occ_model.2 <- occu(~ 1
                   ~ Management0_1 +
                     Juncus.sp.+
                     Typha.sp.+
-                    Phragmites.australis.var..australis+
+                    Phragmites.australis+
                     Grass.Sp.+
                     Schoenoplectus.americanus+
                     Trees.and.shrubs+
