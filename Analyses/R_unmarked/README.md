@@ -69,7 +69,7 @@ occ_model1 <- occu(~ 1
 summary(occ_model1)
 ```
 &nbsp;
-#### 6. MacKenzie-Bailey GOF test for top model
+#### 6. MacKenzie-Bailey GOF test for top model ([reasoning](https://www.uvm.edu/~tdonovan/Occupancy%20Exercises/Exercise3/Exercise%203.%20%20Single-Species,%20Single-Season%20Occupancy%20Models.pdf))
 ```{r}
 occ_gof1<-mb.chisq(occ_model1, print.table = TRUE)
 print(occ_gof1)
