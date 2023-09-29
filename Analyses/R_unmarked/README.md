@@ -18,6 +18,9 @@ head(DetectHist)
 ```{r}
 # Read in site covariates
 mngmnt<-read.csv("mngmnt.csv", header = TRUE)
+
+# sanity check
+head(mngmnt) 
 ```
 &nbsp;
 #### 3. Create unmarkedFrameOccu object
