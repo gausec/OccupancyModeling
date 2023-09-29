@@ -75,6 +75,7 @@ summary(occ_model1)
 occ_gof1<-mb.chisq(occ_model1, print.table = TRUE)
 print(occ_gof1)
 ```
+*I am using a Mackenzie-Bailey Goodness of Fit test over Pearson's Chi-Square test because the Pearson test can produce inflated & misleading results, particularly when assessing fit in occupancy models with covariates.*
 
 &nbsp;
 #### 7. Estimate occupancy and detection probability
