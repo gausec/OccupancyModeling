@@ -50,13 +50,15 @@ summary(occ_model)
 ```
 ```{r}
 # Global model
-occ_model.2 <- occu(~ 1
-                  ~ Management0_1 +
-                    Juncus.sp.+
-                    Typha.sp.+
-                    Phragmites.australis+
-                    Grass.Sp.+
-                    Schoenoplectus.americanus+
+occ_model.2 <- occu(~ Sky+
+                       Wind+
+                       Noise+
+                       Temp
+                  ~Management0_1+
+                    Juncus+
+                    Typha+
+                    Phragmites+
+                    Schoenoplectus+
                     Trees.and.shrubs+
                     Mixed.Emergents, 
                   data = sample.unmarkedFrame_cov)
@@ -90,12 +92,54 @@ predict(occ_model1,
         type = "state")
 
 ```
-&nbsp;
-
 ```{r}
 # To get real estimate of detection (with 95% CI)
 predict(occ_model1, 
         newdata = data.frame(site = 1),
         type = "det")
 ```
+&nbsp;
+
+---
+## Royle-Nichols model for abundance-induced heterogeneity
+&nbsp;
+
+#### 8. Fit null & global model
+
+
+```{r}
+null_occuRN <- occuRN(~ 1
+                  ~ 1,
+data = sample.unmarkedFrame_cov)
+
+summary(null_occuRN)
+
+```
+```{r}
+global_occuRN <- occuRN(~ Sky+
+                       Wind+
+                       Noise+
+                       Temp
+                  ~Management0_1+
+                    Juncus+
+                    Typha+
+                    Phragmites+
+                    Schoenoplectus+
+                    Trees.and.shrubs+
+                    Mixed.Emergents,
+data = sample.unmarkedFrame_cov)
+
+summary(global_occuRN)
+
+```
+&nbsp;
+
+#### 9. I am using `dredge` function from the package, [MuMIn](https://cran.r-project.org/web/packages/MuMIn/index.html), to test all possible models and rank by AIC.
+
+```{r}
+RN_List <- dredge(global_occuRN, rank = "AIC")
+```
+
+
+
 
