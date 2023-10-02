@@ -147,5 +147,29 @@ RN_List <- dredge(global_occuRN, rank = "AIC")
 ```
 
 
+#### 10. GOF test for top model
 
 
+```{r}
+# Create top model in the global environment
+Top_occuRN <- occuRN(~ 1
+                  ~Management0_1+
+                    Juncus+
+                    Typha+
+                    Phragmites,
+data = sample.unmarkedFrame_cov)
+
+# Check regression coefficients from the model
+summary(Top_occuRN)
+
+```
+
+```{r}
+# MB GOF Test
+Top_occuRN_GOF <- mb.gof.test(Top_occuRN, nsim = 1000, plot.hist = FALSE)
+
+# hide the chisq table to give simpler output
+Top_occuRN_GOF$chisq.table <- NULL
+
+print(Top_occuRN_GOF)
+```
