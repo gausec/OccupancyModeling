@@ -5,6 +5,8 @@
 ```{r}
 library(unmarked)
 library(AICcmodavg)
+library(MuMIn)
+library(ggplot2)
 ```
 &nbsp;
 #### 2. Load data
