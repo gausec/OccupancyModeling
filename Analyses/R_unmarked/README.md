@@ -140,7 +140,7 @@ summary(global_occuRN)
 ```
 &nbsp;
 
-#### 9. I am using the `dredge` function from the package, [MuMIn](https://cran.r-project.org/web/packages/MuMIn/index.html), to test all possible models and rank by AIC.
+#### 9. I am using the `dredge` function from the package, [MuMIn](https://cran.r-project.org/web/packages/MuMIn/index.html), to test all possible models and rank them by AIC.
 
 ```{r}
 RN_List <- dredge(global_occuRN, rank = "AIC")
