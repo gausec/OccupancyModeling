@@ -110,14 +110,17 @@ predict(occ_model1,
 
 
 ```{r}
+# Null model
 null_occuRN <- occuRN(~ 1
                   ~ 1,
 data = sample.unmarkedFrame_cov)
 
+# Look at regression coefficients from the model
 summary(null_occuRN)
 
 ```
 ```{r}
+# Global model
 global_occuRN <- occuRN(~ Sky+
                        Wind+
                        Noise+
@@ -131,12 +134,13 @@ global_occuRN <- occuRN(~ Sky+
                     Mixed.Emergents,
 data = sample.unmarkedFrame_cov)
 
+# Look at regression coefficients from the model
 summary(global_occuRN)
 
 ```
 &nbsp;
 
-#### 9. I am using `dredge` function from the package, [MuMIn](https://cran.r-project.org/web/packages/MuMIn/index.html), to test all possible models and rank by AIC.
+#### 9. I am using the `dredge` function from the package, [MuMIn](https://cran.r-project.org/web/packages/MuMIn/index.html), to test all possible models and rank by AIC.
 
 ```{r}
 RN_List <- dredge(global_occuRN, rank = "AIC")
