@@ -1,6 +1,9 @@
 ## SINGLE-SPECIES, SINGLE-SEASON OCCUPANCY MODELS 
-> Validating results using R package unmarked
 &nbsp;
+#### Validating results using R package unmarked
+&nbsp;
+&nbsp;
+
 #### 1. Library
 ```{r}
 library(unmarked)
