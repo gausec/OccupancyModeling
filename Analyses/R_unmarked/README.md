@@ -9,7 +9,6 @@
 library(unmarked)
 library(AICcmodavg)
 library(MuMIn)
-library(ggplot2)
 ```
 &nbsp;
 #### 2. Load data
@@ -21,26 +20,44 @@ DetectHist<-read.csv("Detections.csv", header = TRUE)
 head(DetectHist) 
 ```
 ```{r}
-# Read in site covariates
+# Read in site covariates (z-transformed)
 mngmnt<-read.csv("mngmnt.csv", header = TRUE)
 
 # sanity check
 head(mngmnt) 
 ```
+
+```{r}
+# Read in observational covariates (z-transformed)
+Noise <- read.csv("Noise.csv", header = TRUE)
+Sky <- read.csv("Sky.csv", header = TRUE)
+Wind <- read.csv("Wind.csv", header = TRUE)
+Temp <- read.csv("Temp.csv", header = TRUE)
+
+# sanity check
+head(Noise)
+head(Sky)
+head(Wind)
+head(Temp)
+```
 &nbsp;
 #### 3. Create unmarkedFrameOccu object
 
 ```{r}
-sample.unmarkedFrame_cov <- unmarkedFrameOccu( 
+unmarkedFrame_cov <- unmarkedFrameOccu( 
                                       y = as.matrix(DetectHist),
+                                      obsCovs = list(Noise = Noise,
+                                                     Sky = Sky,
+                                                     Wind = Wind,
+                                                     Temp = Temp),
                                       siteCovs = mngmnt) 
 # sanity check
-head(sample.unmarkedFrame_cov)
+head(unmarkedFrame_cov)
 ```
 &nbsp;
 #### 4. Summarize detection histories
 ```{r}
-detHist(sample.unmarkedFrame_cov)
+detHist(unmarkedFrame_cov)
 ```
 &nbsp;
 #### 5. Create models
@@ -48,7 +65,7 @@ detHist(sample.unmarkedFrame_cov)
 # Null model
 occ_model <- occu(~ 1
                   ~ 1, 
-                  data = sample.unmarkedFrame_cov)
+                  data = unmarkedFrame_cov)
 # Look at regression coefficients from the model
 summary(occ_model)
 
@@ -59,14 +76,14 @@ occ_model.2 <- occu(~ Sky+
                        Wind+
                        Noise+
                        Temp
-                  ~Management0_1+
+                  ~Management+
                     Juncus+
                     Typha+
                     Phragmites+
                     Schoenoplectus+
-                    Trees.and.shrubs+
-                    Mixed.Emergents, 
-                  data = sample.unmarkedFrame_cov)
+                    Trees+
+                    MixedEmergents, 
+                  data = unmarkedFrame_cov)
 # Look at regression coefficients from the model
 summary(occ_model)
 
@@ -75,7 +92,7 @@ summary(occ_model)
 # Top model from PRESENCE output
 occ_model1 <- occu(~ 1
                   ~ Management0_1 ,
-                  data = sample.unmarkedFrame_cov)
+                  data = unmarkedFrame_cov)
 # regression coefficients
 summary(occ_model1)
 ```
@@ -128,13 +145,13 @@ global_occuRN <- occuRN(~ Sky+
                        Wind+
                        Noise+
                        Temp
-                  ~Management0_1+
+                  ~Management+
                     Juncus+
                     Typha+
                     Phragmites+
                     Schoenoplectus+
-                    Trees.and.shrubs+
-                    Mixed.Emergents,
+                    Trees+
+                    MixedEmergents,
 data = sample.unmarkedFrame_cov)
 
 # Look at regression coefficients from the model
@@ -146,7 +163,7 @@ summary(global_occuRN)
 #### 9. I am using the `dredge` function from the package, [MuMIn](https://cran.r-project.org/web/packages/MuMIn/index.html), to test all possible models and rank them by AIC.
 
 ```{r}
-RN_List <- dredge(global_occuRN, rank = "AIC")
+RN_List <- dredge(global_occuRN, beta = "sd", rank = "AIC")
 ```
 
 
