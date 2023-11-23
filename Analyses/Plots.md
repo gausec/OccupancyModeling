@@ -22,14 +22,11 @@ MyColors <- list("#B54141", "#288076")
 png(file="Woody.png", width = 700, height = 600)
 
 
-
-library(ggplot2)
-
 KRD_violin <- ggplot(KRD, aes(x = Words, y = Woody, fill = Detected_Y.N)) +
   geom_violin(colour = "black", alpha = 0.5) +
   labs(
     y = bquote("Woody vegetation"),
-    x = bquote(italic("")),
+    x = bquote(""),
     size = 14,
   ) +
   theme_minimal() +
