@@ -1,3 +1,9 @@
+<img
+  src="TransformedData.png"
+  alt="Transformed Data"
+  title="Transformed data"
+  style="display: inline-block; margin: 0 auto; max-width: 300px">
+
 ### Helpful information
 
 - [How many covariates should you include in a model?](https://youtu.be/tCh7rTu6fvQ?feature=shared)
