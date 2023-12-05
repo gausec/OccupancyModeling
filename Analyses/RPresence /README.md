@@ -1,8 +1,4 @@
-<img
-  src="RNH.model.png"
-  alt="RNH model"
-  title="RNH model"
-  style="display: inline-block; margin: 0 auto; max-width: 300px">
+
 
   <img
   src="single.sp.model.png"
