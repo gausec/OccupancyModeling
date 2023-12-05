@@ -16,3 +16,14 @@
 HETEROGENEITY](https://www.uvm.edu/~tdonovan/Occupancy%20Exercises/Exercise7/Exercise%207.%20%20Royle-Nichols%20Abundance%20Induced%20Heterogeneity.pdf)
 - [Plotting correlation between covariate and psi/p](http://www.phidot.org/forum/viewtopic.php?f=11&t=4351#p14475)
  
+<img
+  src="RNH_model.png"
+  alt="RNH model"
+  title="RNH model"
+  style="display: inline-block; margin: 0 auto; max-width: 300px">
+
+  <img
+  src="single_sp_model.png" 
+  alt="single.sp.model"
+  title="single.sp.model"
+  style="display: inline-block; margin: 0 auto; max-width: 300px">
