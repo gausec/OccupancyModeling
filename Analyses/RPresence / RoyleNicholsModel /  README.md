@@ -51,7 +51,7 @@ head(RNHpao$survcov)
 # Looking at the individual parts of the pao file to check correctness 
 RNHdet.data<-(RNHpao$det.data)
 RNHunitcov<-(RNHpao$nunitcov)
-RNHsurvcov<-(RNHpao$survcov)
+RNHsurvcov<-(RNHpao$survcov) 
 
 ```
 ---
