@@ -199,6 +199,10 @@ print(Top_occuRN_GOF)
 
 #### 11. I am using MuMIn for model averaging 
 ```
+# Create a list of your top models (ΔAIcc < 2)
+Top_Occu_List <- list(Top_model, Model2, Model3)
+
+# Average models
 avg <- model.avg(Top_Occu_List, beta = "none", full = TRUE, rank = "AICc")
 
 # Save results if you want
