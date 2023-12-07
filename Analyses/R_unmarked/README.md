@@ -20,7 +20,7 @@ DetectHist<-read.csv("Detections.csv", header = TRUE)
 head(DetectHist) 
 ```
 ```{r}
-# Read in site covariates (z-transformed)
+# Read in site covariates (z-transformed-- I used the `scale` function in R to do this)
 mngmnt<-read.csv("mngmnt.csv", header = TRUE)
 
 # sanity check
@@ -28,7 +28,7 @@ head(mngmnt)
 ```
 
 ```{r}
-# Read in observational covariates (z-transformed)
+# Read in observational covariates (z-transformed-- I used the `scale` function in R to do this)
 Noise <- read.csv("Noise.csv", header = TRUE)
 Sky <- read.csv("Sky.csv", header = TRUE)
 Wind <- read.csv("Wind.csv", header = TRUE)
@@ -165,7 +165,7 @@ summary(global_occuRN)
 #### 9. I am using the `dredge` function from the package, [MuMIn](https://cran.r-project.org/web/packages/MuMIn/index.html), to test all possible models and rank them by AIC.
 
 ```{r}
-RN_List <- dredge(global_occuRN, beta = "sd", rank = "AIC")
+RN_List <- dredge(global_occuRN, beta = "sd", rank = "AICc")
 ```
 
 
@@ -197,7 +197,7 @@ print(Top_occuRN_GOF)
 ```
 
 
-## Model Averaging 
+#### 11. I am using MuMIn for model averaging 
 ```
 avg <- model.avg(Top_Occu_List, beta = "none", full = TRUE, rank = "AICc")
 
