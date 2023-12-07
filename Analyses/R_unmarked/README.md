@@ -195,3 +195,15 @@ Top_occuRN_GOF$chisq.table <- NULL
 
 print(Top_occuRN_GOF)
 ```
+
+
+## Model Averaging 
+```
+avg <- model.avg(Top_Occu_List, beta = "none", full = TRUE, rank = "AICc")
+
+# Save results if you want
+
+# write.csv(avg$msTable, "avg.msTable.csv") 
+# write.csv(avg$coefficients, "avg.coefficients.csv")
+# write.csv(avg$coefArray, "avg.coefArray.csv")
+```
