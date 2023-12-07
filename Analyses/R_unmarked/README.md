@@ -199,7 +199,7 @@ print(Top_occuRN_GOF)
 
 #### 11. I am using MuMIn for model averaging 
 ```
-# Create a list of your top models (ΔAIcc < 2)
+# Create a list of your top fitted model objects (remember they should all have ΔAIcc < 2)
 Top_Occu_List <- list(Top_model, Model2, Model3)
 
 # Average models
