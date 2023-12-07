@@ -211,4 +211,4 @@ avg <- model.avg(Top_Occu_List, beta = "none", full = TRUE, rank = "AICc")
 # write.csv(avg$coefficients, "avg.coefficients.csv")
 # write.csv(avg$coefArray, "avg.coefArray.csv")
 ```
-How the heck do I interpret the output? [Check out page 19](https://link.springer.com/article/10.1007/s00265-010-1037-6).
+How the heck do I interpret the output? [crtl+F this article for "fullmodel averaging"](https://link.springer.com/article/10.1007/s00265-010-1037-6).
