@@ -99,7 +99,9 @@ summary(occ_model1)
 &nbsp;
 #### 6. MacKenzie-Bailey GOF test for top model ([reasoning](https://www.uvm.edu/~tdonovan/Occupancy%20Exercises/Exercise3/Exercise%203.%20%20Single-Species,%20Single-Season%20Occupancy%20Models.pdf): see page 25)
 ```{r}
-occ_gof1<-mb.chisq(occ_model1, print.table = TRUE)
+occ_gof1<-mb.gof.test(occ_model1, nsim = 99999, plot.hist = FALSE)
+# hide the chisq table to give simpler output
+occ_gof1$chisq.table <- NULL
 print(occ_gof1)
 ```
 *I am using a Mackenzie-Bailey Goodness of Fit test over Pearson's Chi-Square test because the Pearson test can produce inflated & misleading results, particularly when assessing fit in occupancy models with covariates.*
