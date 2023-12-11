@@ -8,6 +8,8 @@ I am interested in king rail occupancy and abundance in regions surrounding a [s
 ***
 ### Repo Contents 
 - **Analyses**: subdirectories containing markdown files with analysis steps in R.
+- **Bin**: R script by Carol Gause.
+
 
 ***
 ### Contributor 
