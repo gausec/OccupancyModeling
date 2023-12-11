@@ -212,3 +212,100 @@ avg <- model.avg(Top_Occu_List, beta = "none", full = TRUE, rank = "AICc")
 # write.csv(avg$coefArray, "avg.coefArray.csv")
 ```
 How the heck do I interpret the output? [crtl+F this article for "full-model averaging"](https://link.springer.com/article/10.1007/s00265-010-1037-6).
+
+
+&nbsp;
+
+---
+
+
+## Next, I am removing potential outliers from my dataset to see if that impacts my results
+
+&nbsp;
+
+#### 1. Libraries
+
+```
+library(AICcmodavg)
+library(MuMIn)
+library(unmarked)
+```
+&nbsp;
+
+#### 2. Data
+2.1 Read in data
+```{r}
+DetectHist <- read.csv("Detections.csv", header = TRUE)
+siteCovs <- read.csv("Vegetation.csv", header = TRUE)
+Noise <- read.csv("Noise.csv", header = TRUE)
+Sky <- read.csv("Sky.csv", header = TRUE)
+Wind <- read.csv("Wind.csv", header = TRUE)
+Temp <- read.csv("Temp.csv", header = TRUE)
+
+```
+2.2 Remove outliers
+```{r}
+# Remove outliers
+DetectHist.NO <- DetectHist[-c(3, 12, 13), ]
+siteCovs.NO <- siteCovs[-c(3, 12, 13), ]
+Noise.NO <- Noise[-c(3, 12, 13), ]
+Sky.NO <- Sky[-c(3, 12, 13), ]
+Wind.NO <- Wind[-c(3, 12, 13), ]
+Temp.NO <- Temp[-c(3, 12, 13), ]
+Obs.NO <- Obs[-c(3, 12, 13), ]
+
+```
+2.3 Scale
+```{r}
+# scale
+siteCovs.NO <- as.data.frame(scale(siteCovs.NO[, 2:9])) # I'm excluding some irrelevant columns here, too.
+Noise.NO <- as.data.frame(scale(Noise.NO))
+Sky.NO <- as.data.frame(scale(Sky.NO))
+Wind.NO <- as.data.frame(scale(Wind.NO))
+Temp.NO <- as.data.frame(scale(Temp.NO))
+Obs.NO <- as.data.frame(scale(Obs.NO))
+
+```
+&nbsp;
+
+#### 3. Unmarked model object
+```{r}
+# Build new unmarkedFramOccu
+unmarkedFrame_NO <- unmarkedFrameOccu( y = as.matrix(DetectHist.NO),
+                                        obsCovs = list(Noise = Noise.NO,
+                                                     Sky = Sky.NO,
+                                                     Wind = Wind.NO,
+                                                     Temp = Temp.NO,
+                                                     Obs = Obs.NO),
+                                        siteCovs = siteCovs.NO)
+
+
+summary(unmarkedFrame_NO)
+```
+&nbsp;
+
+#### 4. Global model
+```{r}
+global_model.NO <- occuRN(~ Sky+
+                       Wind+
+                       Noise+
+                       Temp+
+                        Obs
+                  ~ Management+
+                    Schoenoplectus+
+                    Grass+
+                    MixedEmergents+
+                    Juncus+
+                    Phragmites+
+                    Typha+
+                    Trees,
+                  data = unmarkedFrame_NO)
+
+# Regression coefficients
+summary(global_model.NO)
+```
+&nbsp;
+#### 5. Dredge
+```{r}
+RN_NO.List <- dredge(global_model.NO, rank = "AICc", evaluate = TRUE)
+```
