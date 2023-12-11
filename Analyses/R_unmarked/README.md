@@ -235,6 +235,8 @@ How the heck do I interpret the output? [crtl+F this article for "full-model ave
  
 &nbsp;
 
+
+
 #### 1. Libraries
 
 ```
@@ -244,8 +246,10 @@ library(unmarked)
 ```
 &nbsp;
 
+
+
 #### 2. Data
-&nbsp; &nbsp; __2.1 Read in data__
+- &nbsp; &nbsp; 2.1 Read in data
 ```{r}
 DetectHist <- read.csv("Detections.csv", header = TRUE)
 siteCovs <- read.csv("Vegetation.csv", header = TRUE)
@@ -255,7 +259,7 @@ Wind <- read.csv("Wind.csv", header = TRUE)
 Temp <- read.csv("Temp.csv", header = TRUE)
 
 ```
-&nbsp; &nbsp; __2.2 Remove outliers__
+- &nbsp; &nbsp; 2.2 Remove outliers
 ```{r}
 # Remove outliers
 DetectHist.NO <- DetectHist[-c(3, 12, 13), ]
@@ -267,7 +271,8 @@ Temp.NO <- Temp[-c(3, 12, 13), ]
 Obs.NO <- Obs[-c(3, 12, 13), ]
 
 ```
-&nbsp; &nbsp; __2.3 Scale__
+
+- &nbsp; &nbsp; 2.3 Scale
 ```{r}
 # scale
 siteCovs.NO <- as.data.frame(scale(siteCovs.NO[, 2:9])) # I'm excluding some irrelevant columns here, too.
@@ -279,6 +284,8 @@ Obs.NO <- as.data.frame(scale(Obs.NO))
 
 ```
 &nbsp;
+
+
 
 #### 3. Unmarked model object
 ```{r}
@@ -295,6 +302,9 @@ unmarkedFrame_NO <- unmarkedFrameOccu( y = as.matrix(DetectHist.NO),
 summary(unmarkedFrame_NO)
 ```
 &nbsp;
+
+
+
 
 #### 4. Global model
 ```{r}
@@ -317,12 +327,19 @@ global_model.NO <- occuRN(~ Sky+
 summary(global_model.NO)
 ```
 &nbsp;
+
+
+
+
 #### 5. Dredge
 ```{r}
 RN_NO.List <- dredge(global_model.NO, rank = "AICc", evaluate = TRUE)
 ```
 
 &nbsp;
+
+
+
 #### 6. Create top model
 ```{r}
 Top_occuRN.NO <- occuRN(~ 1
@@ -333,8 +350,12 @@ data = unmarkedFrame_NO)
 summary(Top_occuRN.NO)
 ```
 &nbsp;
+
+
+
+
 #### 7. Model averaging
-&nbsp; &nbsp; __7.1 Create other top models (all have ΔAIcc < 2)__
+- &nbsp; &nbsp; 7.1 Create other top models (all have ΔAIcc < 2)
 ```
 # Top model 2
 Top_occuRN.NO.2 <- <- occuRN(~ 1 ~Management , data = unmarkedFrame_NO)
@@ -349,29 +370,33 @@ Top_occuRN.NO.4 <- <- occuRN(~ 1 ~Management , data = unmarkedFrame_NO)
 Top_occuRN.NO.5 <- <- occuRN(~ 1 ~Management , data = unmarkedFrame_NO)
 ```
 
-&nbsp; &nbsp; __7.2 Make a list of top models__
+- &nbsp; &nbsp; 7.2 Make a list of top models
 ```
 Top_OccuRN.NO_List <- list(Top_occuRN.NO, Top_occuRN.NO.2, Top_occuRN.NO.3, Top_occuRN.NO.4, Top_occuRN.NO.5)
 ```
-&nbsp; &nbsp; __7.3 Model average__
+- &nbsp; &nbsp; 7.3 Model average
 ```
 # Average models
-avg <- model.avg(Top_Occu_List, beta = "none", full = TRUE, rank = "AICc")
+avg.NO <- model.avg(Top_OccuRN.NO_List, beta = "none", full = TRUE, rank = "AICc")
 
 # Save results
 
-# write.csv(avg$msTable, "avg.msTable.csv") 
-# write.csv(avg$coefficients, "avg.coefficients.csv")
-# write.csv(avg$coefArray, "avg.coefArray.csv")
+# write.csv(avg.NO$msTable, "avg.NO.msTable.csv") 
+# write.csv(avg.NO$coefficients, "avg.NO.coefficients.csv")
+# write.csv(avg.NO$coefArray, "avg.NO.coefArray.csv")
 ```
+
+&nbsp;
+
+
 
 #### 8. MB GOF test
 ```{r}
 # MB GOF Test
-Top_occuRN_GOF <- mb.gof.test(Top_occuRN, nsim = 1000, plot.hist = FALSE)
+Top_occuRN.NO_GOF <- mb.gof.test(Top_occuRN.NO, nsim = 1000, plot.hist = FALSE)
 
 # hide the chisq table for simpler output
-Top_occuRN_GOF$chisq.table <- NULL
+Top_occuRN.NO_GOF$chisq.table <- NULL
 
-print(Top_occuRN_GOF)
+print(Top_occuRN.NO_GOF)
 ```
