@@ -358,21 +358,24 @@ summary(Top_occuRN.NO)
 - &nbsp; &nbsp; 7.1 Create other top models (all have ΔAICc < 2)
 ```
 # Top model 2
-Top_occuRN.NO.2 <- <- occuRN(~ 1 ~Management , data = unmarkedFrame_NO)
+Top_occuRN.NO.2 <- occuRN(~ 1 ~Management + Schoenoplectus + Trees +Grass, data = unmarkedFrame_NO)
 
 # Top model 3
-Top_occuRN.NO.3 <- <- occuRN(~ 1 ~Management , data = unmarkedFrame_NO)
+Top_occuRN.NO.3 <- occuRN(~ Wind ~Management + Schoenoplectus + Trees, data = unmarkedFrame_NO)
 
 # Top model 4
-Top_occuRN.NO.4 <- <- occuRN(~ 1 ~Management , data = unmarkedFrame_NO)
+Top_occuRN.NO.4 <- occuRN(~ Wind ~Management + Schoenoplectus + Trees + Grass, data = unmarkedFrame_NO)
 
 # Top model 5
-Top_occuRN.NO.5 <- <- occuRN(~ 1 ~Management , data = unmarkedFrame_NO)
+Top_occuRN.NO.5 <- occuRN(~ Temp ~Management + Schoenoplectus + Trees, data = unmarkedFrame_NO)
+
+# Top model 6
+Top_occuRN.NO.6 <- occuRN(~ 1 ~Management + Schoenoplectus + Trees + MixedEmergents, data = unmarkedFrame_NO)
 ```
 
 - &nbsp; &nbsp; 7.2 Make a list of top models
 ```
-Top_OccuRN.NO_List <- list(Top_occuRN.NO, Top_occuRN.NO.2, Top_occuRN.NO.3, Top_occuRN.NO.4, Top_occuRN.NO.5)
+Top_OccuRN.NO_List <- list(Top_occuRN.NO, Top_occuRN.NO.2, Top_occuRN.NO.3, Top_occuRN.NO.4, Top_occuRN.NO.5,Top_occuRN.NO.6)
 ```
 - &nbsp; &nbsp; 7.3 Model average
 ```
