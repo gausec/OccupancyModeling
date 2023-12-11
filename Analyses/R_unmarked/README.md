@@ -1,5 +1,5 @@
-## SINGLE-SPECIES, SINGLE-SEASON OCCUPANCY MODELS 
-&nbsp;
+##  SINGLE-SPECIES, SINGLE-SEASON OCCUPANCY MODELS :star:
+&nbsp; 
 #### Validating results using R package unmarked
 &nbsp;
 &nbsp;
@@ -129,7 +129,7 @@ predict(occ_model1,
 
 
 ---
-## Royle-Nichols model for abundance-induced heterogeneity
+## Royle-Nichols model for abundance-induced heterogeneity :baby_chick:
 &nbsp;
 
 #### 8. Fit null & global model
@@ -231,7 +231,7 @@ How the heck do I interpret the output? [crtl+F this article for "full-model ave
 
 
 
-## Next, I am removing potential outliers from my dataset to see if that impacts my results 
+## Next, I am removing potential outliers from my dataset to see if that impacts my results :bird:
  
 &nbsp;
 
