@@ -43,3 +43,5 @@ In the United States, the distribution of the king rail has become concentrated 
   title="Survey area"
   style="display: inline-block; margin: 0 auto; max-width: 300px">
 
+---
+*Note: Actual map of survey points, areas of interest, and results will not be posted here until results are published.*
