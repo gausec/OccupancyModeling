@@ -75,13 +75,13 @@ long_data <- veg %>%
 4. Colors
 ```
 colors <- c(
-  "Black_Needlerush" = "#1b9e77",
-  "Cattail" = "#d95f02",
-  "Phragmites" = "#7570b3",
-  "Grasses_and_Shrubs" = "#e7298a",
-  "Common_Threesquare_Bulrush" = "#66a61e",
-  "Woody_Vegetation" = "#e6ab02",
-  "Mixed_Emergents" = "#a6761d"
+  "Black_Needlerush" = "darkred",
+  "Cattail" = "goldenrod",
+  "Phragmites" = "yellow",
+  "Grasses_and_Shrubs" = "lightgreen",
+  "Common_Threesquare_Bulrush" = "darkblue",
+  "Woody_Vegetation" = "lightblue",
+  "Mixed_Emergents" = "purple"
 )
 ```
 &nbsp;
